@@ -1,4 +1,5 @@
-// Cargar el archivo Excel con SheetJS
+let datosExcel;
+
 function cargarExcel(event) {
     const archivo = event.target.files[0];
     const lector = new FileReader();
@@ -7,20 +8,23 @@ function cargarExcel(event) {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
 
-        // Aquí puedes procesar los datos del archivo Excel
-        // Por ejemplo, almacenarlos en una variable global para su posterior consulta
+        const primeraHoja = workbook.Sheets[workbook.SheetNames[0]];
+        datosExcel = XLSX.utils.sheet_to_json(primeraHoja, { header: 'A' });
+
+        console.log(datosExcel);
     };
 
     lector.readAsArrayBuffer(archivo);
 }
 
-// Función para consultar la puerta
 function consultarPuerta() {
     const idLlave = $('#llaveInput').val();
 
-    // Aquí puedes implementar la lógica de búsqueda en los datos del Excel
-    // y mostrar el resultado en el elemento con id 'resultado'
-}
+    const resultado = datosExcel.find(row => row.ID === idLlave);
 
-// Evento de cambio de archivo Excel
-$('#archivoInput').on('change', cargarExcel);
+    if (resultado) {
+        $('#resultado').text(`La puerta correspondiente al ID ${idLlave} es ${resultado.Puerta}`);
+    } else {
+        $('#resultado').text(`No se encontró información para el ID ${idLlave}`);
+    }
+}
