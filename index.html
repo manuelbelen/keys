@@ -13,8 +13,9 @@
         <button type="button" onclick="consultarPuerta()">Consultar</button>
     </form>
     <div id="resultado"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <input type="file" id="archivoInput" accept=".xlsx" onchange="cargarExcel(event)">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
